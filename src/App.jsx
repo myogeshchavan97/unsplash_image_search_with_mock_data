@@ -2,7 +2,8 @@ import axios from 'axios';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 
-const API_URL = 'https://api.unsplash.com/search/photos';
+// const API_URL = 'https://api.unsplash.com/search/photos';
+const API_URL = 'http://localhost:3030';
 const IMAGES_PER_PAGE = 20;
 
 function App() {
@@ -18,13 +19,17 @@ function App() {
       if (searchInput.current.value) {
         setErrorMsg('');
         setLoading(true);
+        // const { data } = await axios.get(
+        //   `${API_URL}?query=${
+        //     searchInput.current.value
+        //   }&page=${page}&per_page=${IMAGES_PER_PAGE}&client_id=${
+        //     import.meta.env.VITE_API_KEY
+        //   }`
+        // );
         const { data } = await axios.get(
-          `${API_URL}?query=${
-            searchInput.current.value
-          }&page=${page}&per_page=${IMAGES_PER_PAGE}&client_id=${
-            import.meta.env.VITE_API_KEY
-          }`
+          `${API_URL}/${searchInput.current.value}`
         );
+        console.log(data);
         setImages(data.results);
         setTotalPages(data.total_pages);
         setLoading(false);
